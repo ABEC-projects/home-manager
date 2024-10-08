@@ -1,10 +1,17 @@
 { config, pkgs, ... }:
 let 
-nixGL = import ./nixGL.nix { inherit pkgs config; };
-nixGLOverlay = pkg: final: previous: {pkg = previous.pkg;};
+  nixGL = import ./nixGL.nix { inherit pkgs config; };
+  nixGLOverlay = pkg_name: final: previous: {"${pkg_name}" = (nixGL previous."${pkg_name}");};
 in
 {
   imports = [ ./options.nix <plasma-manager/modules>];
+
+  nixpkgs.overlays = [
+      (nixGLOverlay "kitty")
+      (nixGLOverlay "steam")
+      (nixGLOverlay "mpv")
+  ];
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   nixpkgs.config = {
@@ -45,7 +52,7 @@ in
     gcc
     zig
     zls
-    (nixGL mpv)
+    mpv
     (nerdfonts.override { fonts = [ "BitstreamVeraSansMono" ]; })
     steam
     gamemode
@@ -62,16 +69,16 @@ in
 
   fonts.fontconfig.enable = true;
 
-  nixpkgs.overlays = [
-      (nixGLOverlay "kitty")
-      (nixGLOverlay "steam")
-  ];
 
   programs.kitty = {
     enable = true;
     settings = {
         font_family = "Bitstream Wera";
         enable_audio_bell = "no";
+        wheel_scroll_multiplier = "20.0";
+        wheel_scroll_min_lines = "2";
+        touch_scroll_multiplier = "10.0";
+        kitty_mod = "ctrl+alt";
     };
   };
 
