@@ -1,13 +1,16 @@
-{ pkgs, config, ...}:
+{ pkgs, config, lib, ...}:
 let
-  nixGL = import ./nixGL.nix { inherit pkgs config; };
-  nixGLOverlay = pkg_name: final: previous: {"${pkg_name}" = (nixGL previous."${pkg_name}");};
+nixGL = import ./nixGL.nix { inherit pkgs config; };
+nixGLOverlay = pkg_name: final: previous: {"${pkg_name}" = (nixGL previous."${pkg_name}");};
+wss = import ./windowSystemSpecific.nix {inherit pkgs config lib;};
+wsSpecPkgs = wss.packages;
 in
 {
-  nixpkgs.overlays = [
-      (nixGLOverlay "kitty")
-      (nixGLOverlay "steam")
-      (nixGLOverlay "mpv")
+  nixpkgs.overlays = lib.lists.flatten [
+    (nixGLOverlay "kitty")
+    (nixGLOverlay "steam")
+    (nixGLOverlay "mpv")
+    wss.overlays
   ];
 
   nixpkgs.config = {
@@ -15,7 +18,7 @@ in
     allowUnfreePredicate = (_:true);
   };
 
-  home.packages = with pkgs; [
+  home.packages = with pkgs; lib.lists.flatten  [
     fooyin
     bat
     lsd
@@ -42,5 +45,8 @@ in
     nomacs
     kitty
     lazygit
+    nodejs_22
+    go
+    wsSpecPkgs
   ];
 }

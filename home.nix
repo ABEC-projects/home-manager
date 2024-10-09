@@ -10,6 +10,8 @@
   home.username = "abec";
   home.homeDirectory = "/home/abec";
 
+  useWayland = true;
+  # useX11 = true;
 
   home.file = {
     ".config/zsh".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/home-manager/zsh";
