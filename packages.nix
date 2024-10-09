@@ -2,15 +2,13 @@
 let
 nixGL = import ./nixGL.nix { inherit pkgs config; };
 nixGLOverlay = pkg_name: final: previous: {"${pkg_name}" = (nixGL previous."${pkg_name}");};
-wss = import ./windowSystemSpecific.nix {inherit pkgs config lib;};
-wsSpecPkgs = wss.packages;
 in
 {
+  imports = [./windowSystemSpecific.nix];
   nixpkgs.overlays = lib.lists.flatten [
     (nixGLOverlay "kitty")
     (nixGLOverlay "steam")
     (nixGLOverlay "mpv")
-    wss.overlays
   ];
 
   nixpkgs.config = {
@@ -47,6 +45,5 @@ in
     lazygit
     nodejs_22
     go
-    wsSpecPkgs
   ];
 }
