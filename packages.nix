@@ -1,7 +1,7 @@
 { pkgs, config, lib, ...}:
 let
 nixGL = import ./nixGL.nix { inherit pkgs config; };
-nixGLOverlay = pkg_name: final: previous: {"${pkg_name}" = (nixGL previous."${pkg_name}");};
+nixGLOverlay = pkg_name: final: previous: {${pkg_name} = (nixGL previous.${pkg_name});};
 in
 {
   imports = [./windowSystemSpecific.nix];
