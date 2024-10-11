@@ -12,6 +12,21 @@ mkOptionDisabled = description:
   };
 in
 {
+  options.configFile = lib.mkOption {
+    type = lib.types.uniq lib.mkOptionType {
+      name = "Option config file";
+      description = "Sets file that will be used by autoOptions.nix
+                     to read options declarations from TOML or JSON";
+    };
+    default = {};
+    example = { type = "TOML"; path = ./config.toml; };
+    description = ''
+      Used for getting options definitions from a file.
+      `type` should be either `TOML` or `JSON`.
+      `path` is the path to file containing attrset
+        which represents the options set.
+    '';
+  };
   options.nixGLPrefix = lib.mkOption {
     type = lib.types.str;
     default = exec;

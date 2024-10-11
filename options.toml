@@ -1,0 +1,2 @@
+useWayland = true
+useNixGL = true

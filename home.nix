@@ -1,5 +1,10 @@
 { config, pkgs, ... }:
-{
+let
+  # Sources some options from options.toml
+  configFile = { path = ./options.toml; type = "TOML"; };
+  autoOptions = import ./autoOptions.nix configFile;
+in
+autoOptions // {
   imports = [ 
     ./options.nix
     <plasma-manager/modules> 
@@ -9,9 +14,6 @@
 
   home.username = "abec";
   home.homeDirectory = "/home/abec";
-
-  useWayland = true;
-  # useX11 = true;
 
   home.file = {
     ".config/zsh".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/home-manager/zsh";
