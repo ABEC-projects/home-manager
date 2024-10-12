@@ -1,6 +1,6 @@
 myConfig:
 {...}:
-if myConfig ? useKitty && myConfig.useKitty then {
+myConfig "useKitty" {
   programs.kitty = {
     enable = true;
     shellIntegration.enableZshIntegration = true;
@@ -19,4 +19,3 @@ if myConfig ? useKitty && myConfig.useKitty then {
     };
   };
 }
-else {}

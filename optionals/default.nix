@@ -1,9 +1,12 @@
 {lib, ...}:
 let
   configFile = { path = ../options.toml; type = "TOML"; };
-  myOptions = import ../autoOptions.nix configFile;
+  setAndTrue = self: name: self ? ${name} && self.${name};
+  applyIfTrue = self: name: attrs: if self ? ${name} && self.${name} then attrs else {};
+  myOptions = import ../autoOptions.nix configFile
+    // {__functor = applyIfTrue; inherit setAndTrue applyIfTrue;};
   readDirToListRec = path: lib.attrsets.mapAttrsToList (name: value: 
-      if value == "directory" 
+      if value == "directory"
       then readDirToListRec (path + ("/" + name))
       else path + ("/" + name)
     ) (builtins.readDir path);
