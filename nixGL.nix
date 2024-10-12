@@ -1,4 +1,4 @@
-{ pkgs, config }:
+{ pkgs, config, ... }:
 
 # Wrap a single package
 pkg:

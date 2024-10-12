@@ -1,10 +1,9 @@
-{ pkgs, config, lib, ...}:
+{ pkgs,  lib, ...}@args:
 let
-nixGL = import ./nixGL.nix { inherit pkgs config; };
+nixGL = import ./nixGL.nix args;
 nixGLOverlay = pkg_name: final: previous: {${pkg_name} = (nixGL previous.${pkg_name});};
 in
 {
-  imports = [./windowSystemSpecific.nix];
   nixpkgs.overlays = lib.lists.flatten [
     (nixGLOverlay "kitty")
     (nixGLOverlay "steam")
@@ -45,5 +44,6 @@ in
     lazygit
     nodejs_22
     go
+    speedcrunch
   ];
 }

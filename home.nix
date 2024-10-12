@@ -1,23 +1,26 @@
-{ config, pkgs, ... }:
+{ config, pkgs, ... }@args:
 let
   # Sources some options from options.toml
   configFile = { path = ./options.toml; type = "TOML"; };
   autoOptions = import ./autoOptions.nix configFile;
+  cd = "${config.home.homeDirectory}/.config/home-manager/";
 in
-autoOptions // {
+{
+  targets.genericLinux.enable = true;
+
   imports = [ 
+    autoOptions
     ./options.nix
-    <plasma-manager/modules> 
     ./packages.nix
-    ./programs.nix
-  ];
+  ] ++ import ./optionals args;
 
   home.username = "abec";
   home.homeDirectory = "/home/abec";
 
   home.file = {
     ".config/zsh".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/home-manager/zsh";
-    ".zshrc".source = "${config.home.homeDirectory}/.config/home-manager/.zshrc";
+    ".zshrc".source = cd + ".zshrc";
+    ".zprofile".source = cd + ".zprofile";
   };
 
   fonts.fontconfig.enable = true;

@@ -1,5 +1,6 @@
-{ config, ...}:
-{
+myConfig:
+{...}:
+if myConfig ? useKitty && myConfig.useKitty then {
   programs.kitty = {
     enable = true;
     shellIntegration.enableZshIntegration = true;
@@ -17,9 +18,5 @@
         "ctrl+shift+c" = "copy_to_clipboard";
     };
   };
-  programs = {
-    plasma = {
-      enable = true;
-    };
-  };
 }
+else {}

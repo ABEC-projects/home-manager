@@ -46,4 +46,10 @@ in
     Weather to include nixGL overlays.
     May be helpful on not nixOS distros if you are having problems with some apps
   '';
+  options.usePlasma = mkOptionDisabled ''
+    Weather to use plasma DE configuration
+  '';
+  options.useKitty = mkOptionDisabled ''
+    Weather to use kitty configuration
+  '';
 }
