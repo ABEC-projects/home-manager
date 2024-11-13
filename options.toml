@@ -2,3 +2,4 @@ usePlasma = true
 useWayland = true
 useNixGL = true
 useKitty = true
+useRust = true

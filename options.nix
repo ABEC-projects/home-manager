@@ -52,4 +52,7 @@ in
   options.useKitty = mkOptionDisabled ''
     Weather to use kitty configuration
   '';
+  options.useRust = mkOptionDisabled ''
+    Wheather to use rust tooling
+  '';
 }

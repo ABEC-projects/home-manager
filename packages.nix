@@ -45,5 +45,6 @@ in
     nodejs_22
     go
     speedcrunch
+    localsend
   ];
 }
